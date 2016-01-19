@@ -1,19 +1,9 @@
-FROM ubuntu:trusty
+FROM alpine:3.2
 
-ENV LANG en_US.UTF-8
-RUN locale-gen $LANG
-
-RUN apt-get update -q && \
-    apt-get install -qy openjdk-7-jre-headless
-
-ADD http://downloads.sourceforge.net/project/subsonic/subsonic/5.2.1/subsonic-5.2.1.deb /tmp/subsonic.deb
-RUN dpkg -i /tmp/subsonic.deb && \
-    rm -rf /tmp/subsonic.deb && \
-    mv /var/subsonic /var/subsonic.default && \
-    ln -s /data /var/subsonic
-
-# Don't fork to the background
-RUN sed -i "s/ > \${LOG} 2>&1 &//" /usr/share/subsonic/subsonic.sh
+RUN apk --update add ffmpeg flac lame openjdk7-jre && \
+    mkdir /subsonic && \
+    wget -qO- http://prdownloads.sourceforge.net/subsonic/subsonic-5.3-standalone.tar.gz | tar xzC /subsonic && \
+    sed -i "s/ > \${LOG} 2>&1 &//" /subsonic/subsonic.sh # Don't fork
 
 ADD start.sh /start.sh
 

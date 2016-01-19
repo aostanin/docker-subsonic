@@ -1,7 +1,8 @@
 #! /bin/sh
 
-set -e
+mkdir -p /data/transcode
+[ ! -e /data/transcode/ffmpeg ] && ln -s /usr/bin/ffmpeg /data/transcode/ffmpeg
+[ ! -e /data/transcode/flac ] && ln -s /usr/bin/flac /data/transcode/flac
+[ ! -e /data/transcode/lame ] && ln -s /usr/bin/lame /data/transcode/lame
 
-[ ! -L /data/transcode ] && ln -s /var/subsonic.default/transcode /data/transcode
-
-/usr/share/subsonic/subsonic.sh
+/subsonic/subsonic.sh --home=/data
