@@ -1,4 +1,4 @@
-FROM alpine:3.2
+FROM alpine:3.3
 
 RUN apk --update add ffmpeg flac lame openjdk7-jre && \
     mkdir /subsonic && \
